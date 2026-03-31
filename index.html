@@ -1,1 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gawynt OS | 2026 Edition</title>
+    <style>
+        :root {
+            /* Starting in Dark Mode as requested */
+            --bg-color: #000000;
+            --card-bg: rgba(28, 28, 30, 0.8);
+            --text-main: #f5f5f7;
+            --text-sub: #a1a1a6;
+            --accent-snow: #00d2ff;
+            --accent-candy: #ff2d55;
+            --border: rgba(255, 255, 255, 0.1);
+            --shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+        }
 
+        [data-theme="light"] {
+            --bg-color: #f5f5f7;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --text-main: #1d1d1f;
+            --text-sub: #86868b;
+            --border: rgba(0, 0, 0, 0.05);
+            --shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            transition: background 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Snow Particle Canvas */
+        #snow-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Apple Theme Toggle */
+        .theme-switch {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            z-index: 100;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            backdrop-filter: blur(20px);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Main OS Card */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(40px) saturate(200%);
+            -webkit-backdrop-filter: blur(40px) saturate(200%);
+            border: 1px solid var(--border);
+            border-radius: 48px;
+            padding: 50px;
+            width: 90%;
+            max-width: 440px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            z-index: 10;
+            position: relative;
+            animation: cardLoad 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes cardLoad {
+            from { opacity: 0; transform: scale(0.9) translateY(30px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        h1 {
+            font-size: 42px;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            margin-bottom: 5px;
+            background: linear-gradient(to bottom, var(--text-main), var(--text-sub));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .version-badge {
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            display: block;
+        }
+
+        /* Modern Hyper-Buttons */
+        .btn-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn {
+            position: relative;
+            text-decoration: none;
+            padding: 22px;
+            border-radius: 22px;
+            font-weight: 700;
+            font-size: 17px;
+            color: #fff;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Snow Button Specifics */
+        .btn-snow {
+            background: linear-gradient(135deg, #0071e3, #00d2ff);
+            box-shadow: 0 10px 30px rgba(0, 113, 227, 0.3);
+        }
+
+        .btn-snow:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 210, 255, 0.5);
+        }
+
+        /* Candy Button Specifics */
+        .btn-candy {
+            background: linear-gradient(135deg, #ff2d55, #ff375f);
+            box-shadow: 0 10px 30px rgba(255, 45, 85, 0.3);
+        }
+
+        .btn-candy:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 55, 95, 0.5);
+            animation: shake 0.4s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: scale(1.05) rotate(0deg); }
+            25% { transform: scale(1.05) rotate(1deg); }
+            75% { transform: scale(1.05) rotate(-1deg); }
+        }
+
+        .btn span { z-index: 2; }
+        .btn i { font-style: normal; font-size: 20px; opacity: 0.8; }
+
+        /* Footer Info */
+        .system-info {
+            margin-top: 40px;
+            font-size: 12px;
+            color: var(--text-sub);
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: #34c759;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+            box-shadow: 0 0 10px #34c759;
+        }
+    </style>
+</head>
+<body data-theme="dark">
+
+    <canvas id="snow-canvas"></canvas>
+
+    <button class="theme-switch" onclick="toggleTheme()">
+        <span id="mode-icon">☀️</span> <span id="mode-text">Light Mode</span>
+    </button>
+
+    <div class="glass-card" id="mainCard">
+        <div style="font-size: 50px; margin-bottom: 10px;"></div>
+        <h1>GAWYNT</h1>
+        <span class="version-badge">Project Hub v2.6.0</span>
+
+        <div class="btn-stack">
+            <a href="https://Gawyntgg.github.io/Gawynt-Snow-shoveling/" class="btn btn-snow">
+                <span>❄️ Snow Shoveling</span>
+                <i>→</i>
+            </a>
+            
+            <a href="https://Gawyntgg.github.io/GS-Candy/" class="btn btn-candy">
+                <span>🍭 GS-Candy</span>
+                <i>→</i>
+            </a>
+        </div>
+
+        <div class="system-info">
+            <span><div class="status-dot"></div> Server: Online</span>
+            <span>•</span>
+            <span>Uptime: 99.9%</span>
+        </div>
+    </div>
+
+    <script>
+        // 1. Theme Toggle Logic
+        function toggleTheme() {
+            const body = document.body;
+            const modeText = document.getElementById('mode-text');
+            const modeIcon = document.getElementById('mode-icon');
+            
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.setAttribute('data-theme', 'light');
+                modeText.innerText = "Dark Mode";
+                modeIcon.innerText = "🌙";
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                modeText.innerText = "Light Mode";
+                modeIcon.innerText = "☀️";
+            }
+        }
+
+        // 2. Snow Shoveling Animation (Canvas Particles)
+        const canvas = document.getElementById('snow-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function initSnow() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = [];
+            for (let i = 0; i < 100; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 3 + 1,
+                    density: Math.random() * 1,
+                    velocity: Math.random() * 2 + 1
+                });
+            }
+        }
+
+        function drawSnow() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = document.body.getAttribute('data-theme') === 'dark' ? "rgba(255, 255, 255, 0.4)" : "rgba(0, 0, 0, 0.1)";
+            ctx.beginPath();
+            for (let p of particles) {
+                ctx.moveTo(p.x, p.y);
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2, true);
+            }
+            ctx.fill();
+            updateSnow();
+        }
+
+        function updateSnow() {
+            for (let p of particles) {
+                p.y += p.velocity;
+                if (p.y > canvas.height) {
+                    p.y = -10;
+                    p.x = Math.random() * canvas.width;
+                }
+            }
+        }
+
+        function animate() {
+            drawSnow();
+            requestAnimationFrame(animate);
+        }
+
+        // 3. Card Tilt Effect
+        const card = document.getElementById('mainCard');
+        document.addEventListener('mousemove', (e) => {
+            const x = (window.innerWidth / 2 - e.pageX) / 40;
+            const y = (window.innerHeight / 2 - e.pageY) / 40;
+            card.style.transform = `rotateX(${-y}deg) rotateY(${x}deg)`;
+        });
+
+        window.addEventListener('resize', initSnow);
+        initSnow();
+        animate();
+    </script>
+</body>
+</html>
