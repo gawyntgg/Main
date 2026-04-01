@@ -6,7 +6,6 @@
     <title>Gawynt OS | 2026 Edition</title>
     <style>
         :root {
-            /* Starting in Dark Mode as requested */
             --bg-color: #000000;
             --card-bg: rgba(28, 28, 30, 0.8);
             --text-main: #f5f5f7;
@@ -44,7 +43,6 @@
             transition: background 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Snow Particle Canvas */
         #snow-canvas {
             position: fixed;
             top: 0;
@@ -55,7 +53,6 @@
             z-index: 1;
         }
 
-        /* Apple Theme Toggle */
         .theme-switch {
             position: absolute;
             top: 30px;
@@ -75,7 +72,6 @@
             gap: 8px;
         }
 
-        /* Main OS Card */
         .glass-card {
             background: var(--card-bg);
             backdrop-filter: blur(40px) saturate(200%);
@@ -116,7 +112,6 @@
             display: block;
         }
 
-        /* Modern Hyper-Buttons */
         .btn-stack {
             display: flex;
             flex-direction: column;
@@ -138,28 +133,26 @@
             align-items: center;
         }
 
-        /* Snow Button Specifics */
+        /* Snow Button */
         .btn-snow {
             background: linear-gradient(135deg, #0071e3, #00d2ff);
             box-shadow: 0 10px 30px rgba(0, 113, 227, 0.3);
         }
+        .btn-snow:hover { transform: scale(1.05); box-shadow: 0 15px 40px rgba(0, 210, 255, 0.5); }
 
-        .btn-snow:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 40px rgba(0, 210, 255, 0.5);
-        }
-
-        /* Candy Button Specifics */
+        /* Candy Button */
         .btn-candy {
             background: linear-gradient(135deg, #ff2d55, #ff375f);
             box-shadow: 0 10px 30px rgba(255, 45, 85, 0.3);
         }
+        .btn-candy:hover { transform: scale(1.05); animation: shake 0.4s ease-in-out; }
 
-        .btn-candy:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 40px rgba(255, 55, 95, 0.5);
-            animation: shake 0.4s ease-in-out;
+        /* Calculator Button - NEW */
+        .btn-calc {
+            background: linear-gradient(135deg, #a332ff, #624af2);
+            box-shadow: 0 10px 30px rgba(163, 50, 255, 0.3);
         }
+        .btn-calc:hover { transform: scale(1.05); box-shadow: 0 15px 40px rgba(163, 50, 255, 0.5); }
 
         @keyframes shake {
             0%, 100% { transform: scale(1.05) rotate(0deg); }
@@ -170,7 +163,6 @@
         .btn span { z-index: 2; }
         .btn i { font-style: normal; font-size: 20px; opacity: 0.8; }
 
-        /* Footer Info */
         .system-info {
             margin-top: 40px;
             font-size: 12px;
@@ -214,6 +206,11 @@
                 <span>🍭 GS-Candy</span>
                 <i>→</i>
             </a>
+
+            <a href="https://gawyntgg.github.io/Calculator-/" class="btn btn-calc">
+                <span>🔢 Calculator</span>
+                <i>→</i>
+            </a>
         </div>
 
         <div class="system-info">
@@ -224,12 +221,10 @@
     </div>
 
     <script>
-        // 1. Theme Toggle Logic
         function toggleTheme() {
             const body = document.body;
             const modeText = document.getElementById('mode-text');
             const modeIcon = document.getElementById('mode-icon');
-            
             if (body.getAttribute('data-theme') === 'dark') {
                 body.setAttribute('data-theme', 'light');
                 modeText.innerText = "Dark Mode";
@@ -241,7 +236,6 @@
             }
         }
 
-        // 2. Snow Shoveling Animation (Canvas Particles)
         const canvas = document.getElementById('snow-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -255,7 +249,6 @@
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
                     radius: Math.random() * 3 + 1,
-                    density: Math.random() * 1,
                     velocity: Math.random() * 2 + 1
                 });
             }
@@ -288,7 +281,6 @@
             requestAnimationFrame(animate);
         }
 
-        // 3. Card Tilt Effect
         const card = document.getElementById('mainCard');
         document.addEventListener('mousemove', (e) => {
             const x = (window.innerWidth / 2 - e.pageX) / 40;
