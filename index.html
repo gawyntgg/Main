@@ -147,12 +147,23 @@
         }
         .btn-candy:hover { transform: scale(1.05); animation: shake 0.4s ease-in-out; }
 
-        /* Calculator Button - NEW */
+        /* Calculator Button */
         .btn-calc {
             background: linear-gradient(135deg, #a332ff, #624af2);
             box-shadow: 0 10px 30px rgba(163, 50, 255, 0.3);
         }
         .btn-calc:hover { transform: scale(1.05); box-shadow: 0 15px 40px rgba(163, 50, 255, 0.5); }
+
+        /* Neon Runner Button - NEW */
+        .btn-neon {
+            background: linear-gradient(135deg, #ff9500, #ffcc00);
+            box-shadow: 0 10px 30px rgba(255, 149, 0, 0.3);
+            color: #000; /* Darker text for better contrast on yellow */
+        }
+        .btn-neon:hover { 
+            transform: scale(1.05); 
+            box-shadow: 0 15px 45px rgba(255, 204, 0, 0.6);
+        }
 
         @keyframes shake {
             0%, 100% { transform: scale(1.05) rotate(0deg); }
@@ -209,6 +220,11 @@
 
             <a href="https://gawyntgg.github.io/Calculator-/" class="btn btn-calc">
                 <span>🔢 Calculator</span>
+                <i>→</i>
+            </a>
+
+            <a href="https://gawyntgg.github.io/Neon-Runner/" class="btn btn-neon">
+                <span>⚡ Neon Runner</span>
                 <i>→</i>
             </a>
         </div>
