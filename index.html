@@ -6,30 +6,29 @@
     <title>Gawynt OS | 2026 Edition</title>
     <style>
         :root {
-            --bg-color: #000000;
-            --card-bg: rgba(28, 28, 30, 0.8);
+            --bg-color: #050505;
+            --card-bg: rgba(28, 28, 30, 0.7);
             --text-main: #f5f5f7;
             --text-sub: #a1a1a6;
-            --accent-snow: #00d2ff;
-            --accent-candy: #ff2d55;
-            --border: rgba(255, 255, 255, 0.1);
-            --shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            --border: rgba(255, 255, 255, 0.12);
+            --shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+            --glass-blur: blur(25px) saturate(180%);
         }
 
         [data-theme="light"] {
             --bg-color: #f5f5f7;
-            --card-bg: rgba(255, 255, 255, 0.8);
+            --card-bg: rgba(255, 255, 255, 0.7);
             --text-main: #1d1d1f;
-            --text-sub: #86868b;
-            --border: rgba(0, 0, 0, 0.05);
-            --shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+            --text-sub: #6e6e73;
+            --border: rgba(0, 0, 0, 0.08);
+            --shadow: 0 40px 100px rgba(0, 0, 0, 0.1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
         }
 
         body {
@@ -40,7 +39,7 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            transition: background 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: background 0.8s ease;
         }
 
         #snow-canvas {
@@ -60,118 +59,146 @@
             z-index: 100;
             background: var(--card-bg);
             border: 1px solid var(--border);
-            padding: 8px 16px;
+            padding: 10px 20px;
             border-radius: 50px;
             cursor: pointer;
-            backdrop-filter: blur(20px);
+            backdrop-filter: var(--glass-blur);
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 500;
             color: var(--text-main);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .theme-switch:hover {
+            transform: translateY(-2px);
+            background: var(--border);
         }
 
         .glass-card {
             background: var(--card-bg);
-            backdrop-filter: blur(40px) saturate(200%);
-            -webkit-backdrop-filter: blur(40px) saturate(200%);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
             border: 1px solid var(--border);
-            border-radius: 48px;
-            padding: 40px;
+            border-radius: 44px;
+            padding: 48px 32px;
             width: 90%;
-            max-width: 440px;
+            max-width: 420px;
             text-align: center;
             box-shadow: var(--shadow);
             z-index: 10;
             position: relative;
-            animation: cardLoad 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: cardLoad 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+            perspective: 1000px;
         }
 
         @keyframes cardLoad {
-            from { opacity: 0; transform: scale(0.9) translateY(30px); }
+            from { opacity: 0; transform: scale(0.95) translateY(20px); }
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
+        .logo-mark {
+            font-size: 44px;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+        }
+
         h1 {
-            font-size: 42px;
-            font-weight: 800;
-            letter-spacing: -1.5px;
-            margin-bottom: 5px;
-            background: linear-gradient(to bottom, var(--text-main), var(--text-sub));
+            font-size: 40px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 4px;
+            background: linear-gradient(180deg, var(--text-main) 0%, var(--text-sub) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .version-badge {
-            font-size: 11px;
-            letter-spacing: 2px;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
             color: var(--text-sub);
             text-transform: uppercase;
-            margin-bottom: 30px;
+            margin-bottom: 32px;
             display: block;
+            opacity: 0.7;
         }
 
         .btn-stack {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            max-height: 400px;
+            gap: 10px;
+            max-height: 380px;
             overflow-y: auto;
-            padding-right: 5px;
+            padding: 4px 8px;
+            mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
         }
 
-        .btn-stack::-webkit-scrollbar { width: 4px; }
-        .btn-stack::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+        .btn-stack::-webkit-scrollbar { width: 0px; }
 
         .btn {
             position: relative;
             text-decoration: none;
-            padding: 20px;
-            border-radius: 22px;
-            font-weight: 700;
-            font-size: 17px;
+            padding: 18px 24px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 16px;
             color: #fff;
-            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        .btn:hover { transform: scale(1.02); }
+        .btn:hover {
+            transform: scale(1.03) translateY(-2px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+            filter: brightness(1.1);
+        }
 
-        /* Button Colors */
-        .btn-snow { background: linear-gradient(135deg, #0071e3, #00d2ff); box-shadow: 0 10px 20px rgba(0, 113, 227, 0.2); }
-        .btn-candy { background: linear-gradient(135deg, #ff2d55, #ff375f); box-shadow: 0 10px 20px rgba(255, 45, 85, 0.2); }
-        .btn-calc { background: linear-gradient(135deg, #a332ff, #624af2); box-shadow: 0 10px 20px rgba(163, 50, 255, 0.2); }
-        .btn-neon { background: linear-gradient(135deg, #ff9500, #ffcc00); box-shadow: 0 10px 20px rgba(255, 149, 0, 0.2); color: #000; }
-        .btn-bird { background: linear-gradient(135deg, #4ec0ca, #2dbad6); box-shadow: 0 10px 20px rgba(78, 192, 202, 0.3); }
-        .btn-car { background: linear-gradient(135deg, #3a3a3c, #1c1c1e); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); }
-        .btn-run { background: linear-gradient(135deg, #0052D4, #4364F7, #6FB1FC); box-shadow: 0 10px 20px rgba(0, 82, 212, 0.3); }
-        .btn-rock { background: linear-gradient(135deg, #8e9eab, #3f4c6b); box-shadow: 0 10px 20px rgba(63, 76, 107, 0.3); }
-        .btn-fruit { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); box-shadow: 0 10px 20px rgba(67, 233, 123, 0.3); color: #003e21; }
+        /* Modern Gradient Library */
+        .btn-snow { background: linear-gradient(135deg, #007AFF, #00C7BE); }
+        .btn-candy { background: linear-gradient(135deg, #FF2D55, #FF3B30); }
+        .btn-calc { background: linear-gradient(135deg, #5856D6, #AF52DE); }
+        .btn-neon { background: linear-gradient(135deg, #FF9500, #FFCC00); color: #000; }
+        .btn-bird { background: linear-gradient(135deg, #30B0C7, #34C759); }
+        .btn-car { background: linear-gradient(135deg, #48484A, #1C1C1E); }
+        .btn-run { background: linear-gradient(135deg, #0040DD, #007AFF); }
+        .btn-rock { background: linear-gradient(135deg, #8E8E93, #636366); }
+        .btn-fruit { background: linear-gradient(135deg, #34C759, #32D74B); color: #003e21; }
+        .btn-music { background: linear-gradient(135deg, #BF5AF2, #FF2D55); border: 1px solid rgba(255,255,255,0.2); }
 
-        .btn span { z-index: 2; }
-        .btn i { font-style: normal; font-size: 20px; opacity: 0.8; }
+        .btn span { display: flex; align-items: center; gap: 12px; }
+        .btn i { font-style: normal; font-size: 18px; opacity: 0.6; transition: 0.3s; }
+        .btn:hover i { transform: translateX(4px); opacity: 1; }
 
         .system-info {
-            margin-top: 30px;
-            font-size: 12px;
+            margin-top: 32px;
+            font-size: 11px;
             color: var(--text-sub);
             display: flex;
             justify-content: center;
-            gap: 15px;
+            align-items: center;
+            gap: 12px;
         }
 
         .status-dot {
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
             background: #34c759;
             border-radius: 50%;
-            display: inline-block;
-            margin-right: 5px;
-            box-shadow: 0 0 10px #34c759;
+            box-shadow: 0 0 12px #34c759;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
         }
     </style>
 </head>
@@ -184,9 +211,9 @@
     </button>
 
     <div class="glass-card" id="mainCard">
-        <div style="font-size: 50px; margin-bottom: 10px;"></div>
+        <div class="logo-mark"></div>
         <h1>GAWYNT</h1>
-        <span class="version-badge">Project Hub v2.6.3</span>
+        <span class="version-badge">Quantum Hub v2.6.4</span>
 
         <div class="btn-stack">
             <a href="https://Gawyntgg.github.io/Gawynt-Snow-shoveling/" class="btn btn-snow">
@@ -233,12 +260,17 @@
                 <span>🍎 Fruit Game</span>
                 <i>→</i>
             </a>
+
+            <a href="https://Gawyntgg.github.io/Music/" class="btn btn-music">
+                <span>🎵 Music Hub</span>
+                <i>→</i>
+            </a>
         </div>
 
         <div class="system-info">
-            <span><div class="status-dot"></div> Server: Online</span>
+            <span style="display:flex; align-items:center; gap:6px;"><div class="status-dot"></div> Systems Nominal</span>
             <span>•</span>
-            <span>Uptime: 99.9%</span>
+            <span>Uptime: 100%</span>
         </div>
     </div>
 
@@ -247,15 +279,11 @@
             const body = document.body;
             const modeText = document.getElementById('mode-text');
             const modeIcon = document.getElementById('mode-icon');
-            if (body.getAttribute('data-theme') === 'dark') {
-                body.setAttribute('data-theme', 'light');
-                modeText.innerText = "Dark Mode";
-                modeIcon.innerText = "🌙";
-            } else {
-                body.setAttribute('data-theme', 'dark');
-                modeText.innerText = "Light Mode";
-                modeIcon.innerText = "☀️";
-            }
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            
+            body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            modeText.innerText = isDark ? "Dark Mode" : "Light Mode";
+            modeIcon.innerText = isDark ? "🌙" : "☀️";
         }
 
         const canvas = document.getElementById('snow-canvas');
@@ -266,25 +294,27 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             particles = [];
-            for (let i = 0; i < 100; i++) {
+            for (let i = 0; i < 120; i++) {
                 particles.push({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
-                    radius: Math.random() * 3 + 1,
-                    velocity: Math.random() * 2 + 1
+                    radius: Math.random() * 2 + 0.5,
+                    velocity: Math.random() * 1.5 + 0.5,
+                    opacity: Math.random() * 0.5 + 0.3
                 });
             }
         }
 
         function drawSnow() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = document.body.getAttribute('data-theme') === 'dark' ? "rgba(255, 255, 255, 0.4)" : "rgba(0, 0, 0, 0.1)";
-            ctx.beginPath();
+            const theme = document.body.getAttribute('data-theme');
+            ctx.fillStyle = theme === 'dark' ? "rgba(255, 255, 255, 0.4)" : "rgba(0, 0, 0, 0.1)";
+            
             for (let p of particles) {
-                ctx.moveTo(p.x, p.y);
-                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2, true);
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fill();
             }
-            ctx.fill();
             updateSnow();
         }
 
@@ -303,11 +333,12 @@
             requestAnimationFrame(animate);
         }
 
+        // Improved Tilt Effect
         const card = document.getElementById('mainCard');
         document.addEventListener('mousemove', (e) => {
-            const x = (window.innerWidth / 2 - e.pageX) / 40;
-            const y = (window.innerHeight / 2 - e.pageY) / 40;
-            card.style.transform = `rotateX(${-y}deg) rotateY(${x}deg)`;
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 35;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 35;
+            card.style.transform = `rotateY(${xAxis}deg) rotateX(${-yAxis}deg)`;
         });
 
         window.addEventListener('resize', initSnow);
