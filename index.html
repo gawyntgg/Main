@@ -78,7 +78,7 @@
             -webkit-backdrop-filter: blur(40px) saturate(200%);
             border: 1px solid var(--border);
             border-radius: 48px;
-            padding: 50px;
+            padding: 40px;
             width: 90%;
             max-width: 440px;
             text-align: center;
@@ -108,20 +108,27 @@
             letter-spacing: 2px;
             color: var(--text-sub);
             text-transform: uppercase;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             display: block;
         }
 
         .btn-stack {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 5px;
         }
+
+        /* Custom Scrollbar for the stack */
+        .btn-stack::-webkit-scrollbar { width: 4px; }
+        .btn-stack::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
 
         .btn {
             position: relative;
             text-decoration: none;
-            padding: 22px;
+            padding: 20px;
             border-radius: 22px;
             font-weight: 700;
             font-size: 17px;
@@ -133,49 +140,24 @@
             align-items: center;
         }
 
-        /* Snow Button */
-        .btn-snow {
-            background: linear-gradient(135deg, #0071e3, #00d2ff);
-            box-shadow: 0 10px 30px rgba(0, 113, 227, 0.3);
-        }
-        .btn-snow:hover { transform: scale(1.05); box-shadow: 0 15px 40px rgba(0, 210, 255, 0.5); }
+        .btn:hover { transform: scale(1.02); }
 
-        /* Candy Button */
-        .btn-candy {
-            background: linear-gradient(135deg, #ff2d55, #ff375f);
-            box-shadow: 0 10px 30px rgba(255, 45, 85, 0.3);
-        }
-        .btn-candy:hover { transform: scale(1.05); animation: shake 0.4s ease-in-out; }
-
-        /* Calculator Button */
-        .btn-calc {
-            background: linear-gradient(135deg, #a332ff, #624af2);
-            box-shadow: 0 10px 30px rgba(163, 50, 255, 0.3);
-        }
-        .btn-calc:hover { transform: scale(1.05); box-shadow: 0 15px 40px rgba(163, 50, 255, 0.5); }
-
-        /* Neon Runner Button - NEW */
-        .btn-neon {
-            background: linear-gradient(135deg, #ff9500, #ffcc00);
-            box-shadow: 0 10px 30px rgba(255, 149, 0, 0.3);
-            color: #000; /* Darker text for better contrast on yellow */
-        }
-        .btn-neon:hover { 
-            transform: scale(1.05); 
-            box-shadow: 0 15px 45px rgba(255, 204, 0, 0.6);
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: scale(1.05) rotate(0deg); }
-            25% { transform: scale(1.05) rotate(1deg); }
-            75% { transform: scale(1.05) rotate(-1deg); }
+        .btn-snow { background: linear-gradient(135deg, #0071e3, #00d2ff); box-shadow: 0 10px 20px rgba(0, 113, 227, 0.2); }
+        .btn-candy { background: linear-gradient(135deg, #ff2d55, #ff375f); box-shadow: 0 10px 20px rgba(255, 45, 85, 0.2); }
+        .btn-calc { background: linear-gradient(135deg, #a332ff, #624af2); box-shadow: 0 10px 20px rgba(163, 50, 255, 0.2); }
+        .btn-neon { background: linear-gradient(135deg, #ff9500, #ffcc00); box-shadow: 0 10px 20px rgba(255, 149, 0, 0.2); color: #000; }
+        
+        /* NEW Flappy Bird Button Style */
+        .btn-bird { 
+            background: linear-gradient(135deg, #4ec0ca, #2dbad6); 
+            box-shadow: 0 10px 20px rgba(78, 192, 202, 0.3); 
         }
 
         .btn span { z-index: 2; }
         .btn i { font-style: normal; font-size: 20px; opacity: 0.8; }
 
         .system-info {
-            margin-top: 40px;
+            margin-top: 30px;
             font-size: 12px;
             color: var(--text-sub);
             display: flex;
@@ -205,7 +187,7 @@
     <div class="glass-card" id="mainCard">
         <div style="font-size: 50px; margin-bottom: 10px;"></div>
         <h1>GAWYNT</h1>
-        <span class="version-badge">Project Hub v2.6.0</span>
+        <span class="version-badge">Project Hub v2.6.1</span>
 
         <div class="btn-stack">
             <a href="https://Gawyntgg.github.io/Gawynt-Snow-shoveling/" class="btn btn-snow">
@@ -225,6 +207,11 @@
 
             <a href="https://gawyntgg.github.io/Neon-Runner/" class="btn btn-neon">
                 <span>⚡ Neon Runner</span>
+                <i>→</i>
+            </a>
+
+            <a href="https://Gawyntgg.github.io/Flappy-Bird/" class="btn btn-bird">
+                <span>🐦 Flappy Bird</span>
                 <i>→</i>
             </a>
         </div>
