@@ -119,12 +119,19 @@
         .btn-fruit { background: linear-gradient(135deg, #32D74B, #248A3D); }
         .btn-music { background: linear-gradient(135deg, #AF52DE, #BF5AF2); }
         .btn-alarm { background: linear-gradient(135deg, #FF3B30, #5856D6); }
-        
-        /* New Maze Button with Pulse Animation */
-        .btn-maze { 
-            background: linear-gradient(135deg, #1d1d1f, #00C7BE); 
-            border: 1px solid #00C7BE;
-            animation: mazeGlow 3s infinite alternate;
+        .btn-maze { background: linear-gradient(135deg, #1d1d1f, #00C7BE); border: 1px solid #00C7BE; animation: mazeGlow 3s infinite alternate; }
+
+        /* New Hongthai Button Style */
+        .btn-hongthai { 
+            background: linear-gradient(135deg, #FF5E3A, #FF2A68, #FFD60A); 
+            background-size: 200% 200%;
+            animation: gradientMove 5s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         @keyframes mazeGlow {
@@ -162,6 +169,10 @@
         <span class="version-badge">Quantum Hub v2.6.4</span>
 
         <div class="btn-stack">
+            <a href="https://Gawyntgg.github.io/Hongthai/" class="btn btn-hongthai" onclick="createBurst(event)">
+                <span>🐅 Hongthai</span><i>→</i>
+            </a>
+
             <a href="https://Gawyntgg.github.io/Gawynt-Snow-shoveling/" class="btn btn-snow" onclick="createBurst(event)">
                 <span>❄️ Snow Shoveling</span><i>→</i>
             </a>
@@ -233,7 +244,6 @@
             }
         }
 
-        // Feature: Burst Effect on Click
         function createBurst(e) {
             for(let i=0; i<15; i++) {
                 bursts.push({
@@ -242,7 +252,7 @@
                     vx: (Math.random() - 0.5) * 10,
                     vy: (Math.random() - 0.5) * 10,
                     life: 1.0,
-                    color: '#00C7BE'
+                    color: '#FFD60A'
                 });
             }
         }
@@ -252,7 +262,6 @@
             const theme = document.body.getAttribute('data-theme');
             ctx.fillStyle = theme === 'dark' ? "rgba(255, 255, 255, 0.4)" : "rgba(0, 0, 0, 0.1)";
             
-            // Snow
             for (let p of particles) {
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
@@ -261,10 +270,9 @@
                 if (p.y > canvas.height) p.y = -10;
             }
 
-            // Burst Particles
             for (let i = bursts.length - 1; i >= 0; i--) {
                 let b = bursts[i];
-                ctx.fillStyle = `rgba(0, 199, 190, ${b.life})`;
+                ctx.fillStyle = `rgba(255, 214, 10, ${b.life})`;
                 ctx.beginPath();
                 ctx.arc(b.x, b.y, 2, 0, Math.PI * 2);
                 ctx.fill();
