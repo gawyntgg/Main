@@ -79,6 +79,13 @@
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
+        /* Restored Logo Style */
+        .logo-mark {
+            font-size: 32px;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
         h1 {
             font-size: 44px; font-weight: 800; letter-spacing: -1.5px;
             background: linear-gradient(180deg, var(--text-main) 30%, var(--text-sub) 100%);
@@ -126,6 +133,7 @@
         .btn-maze { background: linear-gradient(135deg, #1d1d1f, #00C7BE); border: 1px solid #00C7BE; animation: mazeGlow 3s infinite alternate; }
         .btn-overtake { background: linear-gradient(135deg, #FF2D55, #5856D6); }
         .btn-obby { background: linear-gradient(135deg, #5856D6, #AF52DE); }
+        .btn-snake { background: linear-gradient(135deg, #32D74B, #15803D); } /* New Snake Style */
 
         .btn-hongthai { 
             background: linear-gradient(135deg, #FF5E3A, #FF2A68, #FFD60A); 
@@ -159,7 +167,6 @@
 
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-        /* --- ADMIN PANEL STYLES --- */
         .admin-panel {
             position: absolute; top: 30px; left: 30px; z-index: 100;
             background: var(--card-bg); border: 1px solid var(--border);
@@ -183,9 +190,7 @@
             margin-bottom: 5px;
         }
 
-        .admin-panel label {
-            display: flex; justify-content: space-between; align-items: center;
-        }
+        .admin-panel label { display: flex; justify-content: space-between; align-items: center; }
 
         .admin-panel input[type="text"],
         .admin-panel select {
@@ -194,13 +199,8 @@
             width: 100px; font-weight: 600; outline: none;
         }
 
-        .admin-panel select {
-            cursor: pointer;
-        }
-
-        .admin-panel select option {
-            background: var(--bg-color); color: var(--text-main);
-        }
+        .admin-panel select { cursor: pointer; }
+        .admin-panel select option { background: var(--bg-color); color: var(--text-main); }
 
         .admin-panel input[type="color"] {
             -webkit-appearance: none; border: none; width: 30px; height: 30px;
@@ -210,9 +210,7 @@
         .admin-panel input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
         .admin-panel input[type="color"]::-webkit-color-swatch { border: 1px solid var(--border); border-radius: 5px; }
         
-        .admin-panel input[type="range"] {
-            width: 100px; cursor: pointer; accent-color: #FF2D55;
-        }
+        .admin-panel input[type="range"] { width: 100px; cursor: pointer; accent-color: #FF2D55; }
     </style>
 </head>
 <body data-theme="dark">
@@ -221,14 +219,8 @@
 
     <div class="admin-panel" style="display: none;">
         <div class="admin-title-header">⚡ Admin Panel</div>
-        <label>
-            Site Color: 
-            <input type="color" id="adminColorPicker" value="#050505" oninput="pushGlobalSettings()">
-        </label>
-        <label>
-            Rename Title: 
-            <input type="text" id="adminTitleInput" placeholder="GAWYNT" value="GAWYNT" oninput="pushGlobalSettings()">
-        </label>
+        <label>Site Color: <input type="color" id="adminColorPicker" value="#050505" oninput="pushGlobalSettings()"></label>
+        <label>Rename Title: <input type="text" id="adminTitleInput" placeholder="GAWYNT" value="GAWYNT" oninput="pushGlobalSettings()"></label>
         <label>
             Effect Type:
             <select id="adminEffectSelect" onchange="pushGlobalSettings()">
@@ -241,14 +233,8 @@
                 <option value="disco">Party Disco</option> 
             </select>
         </label>
-        <label>
-            Effect Size: 
-            <input type="range" id="adminSizeSlider" min="0.5" max="5" step="0.5" value="1" oninput="pushGlobalSettings()">
-        </label>
-        <label>
-            Effect Speed: 
-            <input type="range" id="adminSpeedSlider" min="0" max="5" step="0.1" value="1" oninput="pushGlobalSettings()">
-        </label>
+        <label>Effect Size: <input type="range" id="adminSizeSlider" min="0.5" max="5" step="0.5" value="1" oninput="pushGlobalSettings()"></label>
+        <label>Effect Speed: <input type="range" id="adminSpeedSlider" min="0" max="5" step="0.1" value="1" oninput="pushGlobalSettings()"></label>
     </div>
     
     <button class="theme-switch" onclick="toggleTheme()">
@@ -256,8 +242,7 @@
     </button>
 
     <div class="glass-card" id="mainCard">
-        <div class="logo-mark"></div>
-        <h1 id="mainTitle">GAWYNT</h1>
+        <div class="logo-mark"></div> <h1 id="mainTitle">GAWYNT</h1>
         <span class="version-badge">Quantum Hub v2.6.4</span>
 
         <div class="btn-stack">
@@ -306,6 +291,9 @@
             <a href="https://Gawyntgg.github.io/Obby" class="btn btn-obby" onclick="createBurst(event)">
                 <span>🧱 Obby</span><i>→</i>
             </a>
+            <a href="https://Gawyntgg.github.io/Snake/" class="btn btn-snake" onclick="createBurst(event)">
+                <span>🐍 Snake Game</span><i>→</i>
+            </a>
         </div>
 
         <div class="system-info">
@@ -316,7 +304,7 @@
     </div>
 
     <script>
-        // --- FIREBASE CONNECTION ---
+        // Restored Firebase Config & Logic
         const firebaseConfig = {
             apiKey: "AIzaSyBuWWnqDX5mUra5pF3uuBxEVSKjcESifTk",
             authDomain: "gawynt-hub.firebaseapp.com",
@@ -330,7 +318,6 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Push settings to Firebase
         function pushGlobalSettings() {
             const settings = {
                 bgColor: document.getElementById('adminColorPicker').value,
@@ -342,28 +329,22 @@
             database.ref('siteSettings').set(settings);
         }
 
-        // Pull settings from Firebase (Listen for changes)
         database.ref('siteSettings').on('value', (snapshot) => {
             const data = snapshot.val();
             if (data) {
                 document.documentElement.style.setProperty('--bg-color', data.bgColor);
                 document.getElementById('adminColorPicker').value = data.bgColor;
-                
                 document.getElementById('mainTitle').innerText = data.title;
                 document.getElementById('adminTitleInput').value = data.title;
-                
                 adminEffectType = data.effect;
                 document.getElementById('adminEffectSelect').value = data.effect;
-                
                 adminEffectSize = parseFloat(data.size);
                 document.getElementById('adminSizeSlider').value = data.size;
-                
                 adminSnowSpeed = parseFloat(data.speed);
                 document.getElementById('adminSpeedSlider').value = data.speed;
             }
         });
 
-        // --- THEME LOGIC ---
         function toggleTheme() {
             const body = document.body;
             const isDark = body.getAttribute('data-theme') === 'dark';
@@ -373,14 +354,13 @@
             document.documentElement.style.removeProperty('--bg-color');
         }
 
-        // --- CANVAS EFFECTS LOGIC ---
         const canvas = document.getElementById('snow-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
         let bursts = [];
         let adminSnowSpeed = 1; 
         let adminEffectType = 'snow'; 
-        let adminEffectSize = 1;       
+        let adminEffectSize = 1;      
         const confettiColors = ['#FF2D55', '#5856D6', '#34C759', '#FF9F0A', '#32ADE6', '#00C7BE'];
 
         function initSnow() {
@@ -418,17 +398,14 @@
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             const theme = document.body.getAttribute('data-theme');
-            
             for (let p of particles) {
                 let baseRadius = p.radius * adminEffectSize;
                 ctx.beginPath();
-                
                 if (adminEffectType === 'snow') {
                     ctx.fillStyle = theme === 'dark' ? "rgba(255, 255, 255, 0.4)" : "rgba(0, 0, 0, 0.2)";
                     ctx.arc(p.x, p.y, baseRadius, 0, Math.PI * 2);
                     ctx.fill();
-                } 
-                else if (adminEffectType === 'leaves') {
+                } else if (adminEffectType === 'leaves') {
                     ctx.save();
                     ctx.translate(p.x, p.y);
                     ctx.rotate(p.rotation);
@@ -437,15 +414,13 @@
                     ctx.fill();
                     ctx.restore();
                     p.rotation += p.rotSpeed;
-                }
-                else if (adminEffectType === 'rain') {
+                } else if (adminEffectType === 'rain') {
                     ctx.strokeStyle = theme === 'dark' ? "rgba(150, 200, 255, 0.6)" : "rgba(50, 100, 200, 0.5)";
                     ctx.lineWidth = baseRadius / 2 > 0 ? baseRadius / 2 : 0.5;
                     ctx.moveTo(p.x, p.y);
                     ctx.lineTo(p.x - p.vx, p.y - p.vy * 4 * adminSnowSpeed); 
                     ctx.stroke();
-                }
-                else if (adminEffectType === 'stars') {
+                } else if (adminEffectType === 'stars') {
                     ctx.fillStyle = theme === 'dark' ? "rgba(255, 255, 100, 0.8)" : "rgba(255, 200, 0, 0.8)";
                     ctx.save();
                     ctx.translate(p.x, p.y);
@@ -461,8 +436,7 @@
                     ctx.fill();
                     ctx.restore();
                     p.rotation += p.rotSpeed * 0.5;
-                }
-                else if (adminEffectType === 'confetti') {
+                } else if (adminEffectType === 'confetti') {
                     ctx.save();
                     ctx.translate(p.x, p.y);
                     ctx.rotate(p.rotation);
@@ -470,14 +444,12 @@
                     ctx.fillRect(-baseRadius*1.5, -baseRadius, baseRadius*3, baseRadius*2);
                     ctx.restore();
                     p.rotation += p.rotSpeed * 1.5;
-                }
-                else if (adminEffectType === 'matrix') {
+                } else if (adminEffectType === 'matrix') {
                     ctx.fillStyle = "#0F0";
                     ctx.font = `${baseRadius * 5 + 10}px monospace`;
                     ctx.fillText(p.char, p.x, p.y);
                     if (Math.random() < 0.02) p.char = String.fromCharCode(0x30A0 + Math.random() * 96);
-                }
-                else if (adminEffectType === 'disco') {
+                } else if (adminEffectType === 'disco') {
                     let discoColors = ['#FF2D55', '#007AFF', '#34C759', '#FFD60A', '#AF52DE', '#FF9F0A'];
                     ctx.fillStyle = discoColors[Math.floor(Math.random() * discoColors.length)];
                     ctx.arc(p.x, p.y, baseRadius * 3, 0, Math.PI * 2);
@@ -485,13 +457,10 @@
                     p.x += (Math.random() - 0.5) * 8 * adminSnowSpeed;
                     p.y += (Math.random() - 0.5) * 8 * adminSnowSpeed;
                 }
-
                 let currentVy = p.vy * adminSnowSpeed;
                 if (adminEffectType === 'rain') currentVy *= 3;
-                
                 p.y += currentVy; 
                 p.x += (p.vx * adminSnowSpeed);
-                
                 if (p.y > canvas.height + 20) {
                     p.y = -20;
                     p.x = Math.random() * canvas.width;
@@ -499,7 +468,6 @@
                 if (p.x < -20) p.x = canvas.width + 20;
                 if (p.x > canvas.width + 20) p.x = -20;
             }
-
             for (let i = bursts.length - 1; i >= 0; i--) {
                 let b = bursts[i];
                 ctx.fillStyle = `rgba(255, 214, 10, ${b.life})`;
