@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gawynt OS | 2026 Edition</title>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+    
     <style>
         :root {
             --bg-color: #050505;
@@ -109,7 +112,6 @@
         .btn:hover { transform: scale(1.04) translateY(-4px); z-index: 2; box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
         .btn:active { transform: scale(0.98); }
 
-        /* Gradients */
         .btn-ai { background: linear-gradient(135deg, #5E5CE6, #32ADE6); }
         .btn-snow { background: linear-gradient(135deg, #007AFF, #5856D6); }
         .btn-candy { background: linear-gradient(135deg, #FF2D55, #FF375F); }
@@ -122,8 +124,6 @@
         .btn-music { background: linear-gradient(135deg, #AF52DE, #BF5AF2); }
         .btn-alarm { background: linear-gradient(135deg, #FF3B30, #5856D6); }
         .btn-maze { background: linear-gradient(135deg, #1d1d1f, #00C7BE); border: 1px solid #00C7BE; animation: mazeGlow 3s infinite alternate; }
-        
-        /* Overtake Specific Gradient */
         .btn-overtake { background: linear-gradient(135deg, #FF2D55, #5856D6); }
 
         .btn-hongthai { 
@@ -212,8 +212,6 @@
         .admin-panel input[type="range"] {
             width: 100px; cursor: pointer; accent-color: #FF2D55;
         }
-        /* --- END ADMIN PANEL STYLES --- */
-
     </style>
 </head>
 <body data-theme="dark">
@@ -224,30 +222,31 @@
         <div class="admin-title-header">⚡ Admin Panel</div>
         <label>
             Site Color: 
-            <input type="color" id="adminColorPicker" value="#050505">
+            <input type="color" id="adminColorPicker" value="#050505" oninput="pushGlobalSettings()">
         </label>
         <label>
             Rename Title: 
-            <input type="text" id="adminTitleInput" placeholder="GAWYNT" value="GAWYNT">
+            <input type="text" id="adminTitleInput" placeholder="GAWYNT" value="GAWYNT" oninput="pushGlobalSettings()">
         </label>
         <label>
             Effect Type:
-            <select id="adminEffectSelect">
+            <select id="adminEffectSelect" onchange="pushGlobalSettings()">
                 <option value="snow">Snow</option>
                 <option value="leaves">Leaves</option>
                 <option value="rain">Rain</option>
                 <option value="stars">Stars</option>
                 <option value="confetti">Confetti</option>
                 <option value="matrix">Matrix Code</option>
-                <option value="disco">Party Disco</option> </select>
+                <option value="disco">Party Disco</option> 
+            </select>
         </label>
         <label>
             Effect Size: 
-            <input type="range" id="adminSizeSlider" min="0.5" max="5" step="0.5" value="1">
+            <input type="range" id="adminSizeSlider" min="0.5" max="5" step="0.5" value="1" oninput="pushGlobalSettings()">
         </label>
         <label>
             Effect Speed: 
-            <input type="range" id="adminSpeedSlider" min="0" max="5" step="0.1" value="1">
+            <input type="range" id="adminSpeedSlider" min="0" max="5" step="0.1" value="1" oninput="pushGlobalSettings()">
         </label>
     </div>
     
@@ -313,17 +312,64 @@
     </div>
 
     <script>
+        // --- FIREBASE CONNECTION ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyBuWWnqDX5mUra5pF3uuBxEVSKjcESifTk",
+            authDomain: "gawynt-hub.firebaseapp.com",
+            databaseURL: "https://gawynt-hub-default-rtdb.firebaseio.com",
+            projectId: "gawynt-hub",
+            storageBucket: "gawynt-hub.firebasestorage.app",
+            messagingSenderId: "330651852035",
+            appId: "1:330651852035:web:db931f867da21b6a519d36"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Push settings to Firebase
+        function pushGlobalSettings() {
+            const settings = {
+                bgColor: document.getElementById('adminColorPicker').value,
+                title: document.getElementById('adminTitleInput').value,
+                effect: document.getElementById('adminEffectSelect').value,
+                size: document.getElementById('adminSizeSlider').value,
+                speed: document.getElementById('adminSpeedSlider').value
+            };
+            database.ref('siteSettings').set(settings);
+        }
+
+        // Pull settings from Firebase (Listen for changes)
+        database.ref('siteSettings').on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                document.documentElement.style.setProperty('--bg-color', data.bgColor);
+                document.getElementById('adminColorPicker').value = data.bgColor;
+                
+                document.getElementById('mainTitle').innerText = data.title;
+                document.getElementById('adminTitleInput').value = data.title;
+                
+                adminEffectType = data.effect;
+                document.getElementById('adminEffectSelect').value = data.effect;
+                
+                adminEffectSize = parseFloat(data.size);
+                document.getElementById('adminSizeSlider').value = data.size;
+                
+                adminSnowSpeed = parseFloat(data.speed);
+                document.getElementById('adminSpeedSlider').value = data.speed;
+            }
+        });
+
+        // --- THEME LOGIC ---
         function toggleTheme() {
             const body = document.body;
             const isDark = body.getAttribute('data-theme') === 'dark';
             body.setAttribute('data-theme', isDark ? 'light' : 'dark');
             document.getElementById('mode-text').innerText = isDark ? "Dark Mode" : "Light Mode";
             document.getElementById('mode-icon').innerText = isDark ? "🌙" : "☀️";
-            
-            // Reset custom admin color when switching themes to maintain visual integrity
             document.documentElement.style.removeProperty('--bg-color');
         }
 
+        // --- CANVAS EFFECTS LOGIC ---
         const canvas = document.getElementById('snow-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -344,11 +390,10 @@
                     radius: Math.random() * 2 + 0.5,
                     vx: (Math.random() - 0.5) * 1,
                     vy: Math.random() * 1.5 + 0.5,
-                    // Extended properties for new effects
                     color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
                     rotation: Math.random() * Math.PI * 2,
                     rotSpeed: (Math.random() - 0.5) * 0.1,
-                    char: String.fromCharCode(0x30A0 + Math.random() * 96) // Random Katakana for Matrix
+                    char: String.fromCharCode(0x30A0 + Math.random() * 96)
                 });
             }
         }
@@ -372,10 +417,8 @@
             
             for (let p of particles) {
                 let baseRadius = p.radius * adminEffectSize;
-                
                 ctx.beginPath();
                 
-                // --- EFFECT RENDERING LOGIC ---
                 if (adminEffectType === 'snow') {
                     ctx.fillStyle = theme === 'dark' ? "rgba(255, 255, 255, 0.4)" : "rgba(0, 0, 0, 0.2)";
                     ctx.arc(p.x, p.y, baseRadius, 0, Math.PI * 2);
@@ -431,29 +474,20 @@
                     if (Math.random() < 0.02) p.char = String.fromCharCode(0x30A0 + Math.random() * 96);
                 }
                 else if (adminEffectType === 'disco') {
-                    // --- NEW PARTY DISCO EFFECT ---
                     let discoColors = ['#FF2D55', '#007AFF', '#34C759', '#FFD60A', '#AF52DE', '#FF9F0A'];
                     ctx.fillStyle = discoColors[Math.floor(Math.random() * discoColors.length)];
                     ctx.arc(p.x, p.y, baseRadius * 3, 0, Math.PI * 2);
-                    ctx.shadowColor = ctx.fillStyle;
-                    ctx.shadowBlur = 15;
                     ctx.fill();
-                    ctx.shadowBlur = 0; // reset
-                    
-                    // Erratic movement for disco mode
                     p.x += (Math.random() - 0.5) * 8 * adminSnowSpeed;
                     p.y += (Math.random() - 0.5) * 8 * adminSnowSpeed;
                 }
-                // --- END EFFECT RENDERING ---
 
-                // Movement Logic
                 let currentVy = p.vy * adminSnowSpeed;
-                if (adminEffectType === 'rain') currentVy *= 3; // Make rain fall significantly faster
+                if (adminEffectType === 'rain') currentVy *= 3;
                 
                 p.y += currentVy; 
                 p.x += (p.vx * adminSnowSpeed);
                 
-                // Wrap around screen
                 if (p.y > canvas.height + 20) {
                     p.y = -20;
                     p.x = Math.random() * canvas.width;
@@ -482,7 +516,6 @@
             card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
         });
 
-        // --- NEW: Admin Panel Passcode Access ---
         card.addEventListener('dblclick', () => {
             const panel = document.querySelector('.admin-panel');
             if (panel.style.display === 'none') {
@@ -493,43 +526,13 @@
                     alert('Access Denied');
                 }
             } else {
-                // Double click again to hide it
                 panel.style.display = 'none';
             }
         });
-        // ----------------------------------------
 
         window.addEventListener('resize', initSnow);
         initSnow();
         draw();
-
-        // --- ADMIN PANEL LOGIC ---
-        // Change Background Color
-        document.getElementById('adminColorPicker').addEventListener('input', function(e) {
-            document.documentElement.style.setProperty('--bg-color', e.target.value);
-        });
-
-        // Change Title
-        document.getElementById('adminTitleInput').addEventListener('input', function(e) {
-            const newTitle = e.target.value.trim() === "" ? "GAWYNT" : e.target.value;
-            document.getElementById('mainTitle').innerText = newTitle;
-        });
-
-        // Change Effect Type
-        document.getElementById('adminEffectSelect').addEventListener('change', function(e) {
-            adminEffectType = e.target.value;
-        });
-
-        // Change Effect Size
-        document.getElementById('adminSizeSlider').addEventListener('input', function(e) {
-            adminEffectSize = parseFloat(e.target.value);
-        });
-
-        // Change Effect Speed
-        document.getElementById('adminSpeedSlider').addEventListener('input', function(e) {
-            adminSnowSpeed = parseFloat(e.target.value);
-        });
-        // --- END ADMIN PANEL LOGIC ---
     </script>
 </body>
 </html>
