@@ -125,6 +125,7 @@
         .btn-alarm { background: linear-gradient(135deg, #FF3B30, #5856D6); }
         .btn-maze { background: linear-gradient(135deg, #1d1d1f, #00C7BE); border: 1px solid #00C7BE; animation: mazeGlow 3s infinite alternate; }
         .btn-overtake { background: linear-gradient(135deg, #FF2D55, #5856D6); }
+        .btn-obby { background: linear-gradient(135deg, #5856D6, #AF52DE); }
 
         .btn-hongthai { 
             background: linear-gradient(135deg, #FF5E3A, #FF2A68, #FFD60A); 
@@ -302,6 +303,9 @@
             <a href="https://Gawyntgg.github.io/Overtake/" class="btn btn-overtake" onclick="createBurst(event)">
                 <span>🏎️ Overtake</span><i>→</i>
             </a>
+            <a href="https://Gawyntgg.github.io/Obby" class="btn btn-obby" onclick="createBurst(event)">
+                <span>🧱 Obby</span><i>→</i>
+            </a>
         </div>
 
         <div class="system-info">
@@ -376,7 +380,7 @@
         let bursts = [];
         let adminSnowSpeed = 1; 
         let adminEffectType = 'snow'; 
-        let adminEffectSize = 1;      
+        let adminEffectSize = 1;       
         const confettiColors = ['#FF2D55', '#5856D6', '#34C759', '#FF9F0A', '#32ADE6', '#00C7BE'];
 
         function initSnow() {
