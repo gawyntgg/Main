@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gawynt OS | 2026 Edition</title>
+    <title>Gawynt OS | Ultimate Edition</title>
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
     
@@ -17,6 +17,7 @@
             --shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
             --glass-blur: blur(25px) saturate(200%);
             --accent: #007aff;
+            --card-radius: 48px;
         }
 
         [data-theme="light"] {
@@ -65,7 +66,7 @@
             backdrop-filter: var(--glass-blur);
             -webkit-backdrop-filter: var(--glass-blur);
             border: 1px solid var(--border);
-            border-radius: 48px;
+            border-radius: var(--card-radius);
             padding: 56px 36px;
             width: 92%; max-width: 440px;
             text-align: center; box-shadow: var(--shadow);
@@ -79,7 +80,6 @@
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        /* Restored Logo Style */
         .logo-mark {
             font-size: 32px;
             margin-bottom: 10px;
@@ -133,7 +133,7 @@
         .btn-maze { background: linear-gradient(135deg, #1d1d1f, #00C7BE); border: 1px solid #00C7BE; animation: mazeGlow 3s infinite alternate; }
         .btn-overtake { background: linear-gradient(135deg, #FF2D55, #5856D6); }
         .btn-obby { background: linear-gradient(135deg, #5856D6, #AF52DE); }
-        .btn-snake { background: linear-gradient(135deg, #32D74B, #15803D); } /* New Snake Style */
+        .btn-snake { background: linear-gradient(135deg, #32D74B, #15803D); }
 
         .btn-hongthai { 
             background: linear-gradient(135deg, #FF5E3A, #FF2A68, #FFD60A); 
@@ -167,74 +167,76 @@
 
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
+        /* --- ADVANCED ADMIN PANEL --- */
         .admin-panel {
-            position: absolute; top: 30px; left: 30px; z-index: 100;
-            background: var(--card-bg); border: 1px solid var(--border);
-            padding: 20px; border-radius: 20px; backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            color: var(--text-main); font-size: 13px; font-weight: 600;
-            display: flex; flex-direction: column; gap: 12px;
-            animation: adminPulse 1.5s infinite alternate;
-            box-shadow: 0 0 20px rgba(255, 45, 85, 0.2);
-            min-width: 220px;
+            position: absolute; top: 30px; left: 30px; z-index: 1000;
+            background: rgba(10, 10, 12, 0.95); border: 1px solid #FF2D55;
+            padding: 24px; border-radius: 24px; backdrop-filter: blur(20px);
+            color: #fff; width: 300px; max-height: 85vh; overflow-y: auto;
+            display: none; flex-direction: column; gap: 18px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
+        .admin-panel::-webkit-scrollbar { width: 4px; }
+        .admin-panel::-webkit-scrollbar-thumb { background: #FF2D55; border-radius: 10px; }
 
-        @keyframes adminPulse {
-            0% { box-shadow: 0 0 15px rgba(255, 45, 85, 0.3); border-color: rgba(255, 45, 85, 0.4); }
-            100% { box-shadow: 0 0 30px rgba(255, 45, 85, 0.8); border-color: rgba(255, 45, 85, 1); }
-        }
-
-        .admin-title-header {
-            color: #FF2D55; font-size: 15px; font-weight: 800; 
-            letter-spacing: 1px; text-transform: uppercase; text-align: center;
-            margin-bottom: 5px;
-        }
-
-        .admin-panel label { display: flex; justify-content: space-between; align-items: center; }
-
-        .admin-panel input[type="text"],
-        .admin-panel select {
-            background: rgba(0, 0, 0, 0.2); border: 1px solid var(--border);
-            color: var(--text-main); padding: 5px 10px; border-radius: 8px;
-            width: 100px; font-weight: 600; outline: none;
-        }
-
-        .admin-panel select { cursor: pointer; }
-        .admin-panel select option { background: var(--bg-color); color: var(--text-main); }
-
-        .admin-panel input[type="color"] {
-            -webkit-appearance: none; border: none; width: 30px; height: 30px;
-            border-radius: 5px; cursor: pointer; background: transparent;
-        }
-
-        .admin-panel input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
-        .admin-panel input[type="color"]::-webkit-color-swatch { border: 1px solid var(--border); border-radius: 5px; }
+        .admin-section { display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
+        .admin-section-title { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #FF2D55; font-weight: 800; }
         
-        .admin-panel input[type="range"] { width: 100px; cursor: pointer; accent-color: #FF2D55; }
+        .admin-panel label { font-size: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .admin-panel input, .admin-panel select { 
+            background: #2c2c2e; border: none; color: #fff; padding: 6px; border-radius: 6px; font-size: 11px; width: 120px;
+        }
+        .admin-panel input[type="color"] { width: 40px; height: 25px; cursor: pointer; padding: 0; }
+        .admin-panel input[type="range"] { width: 100px; accent-color: #FF2D55; }
     </style>
 </head>
 <body data-theme="dark">
 
     <canvas id="snow-canvas"></canvas>
 
-    <div class="admin-panel" style="display: none;">
-        <div class="admin-title-header">⚡ Admin Panel</div>
-        <label>Site Color: <input type="color" id="adminColorPicker" value="#050505" oninput="pushGlobalSettings()"></label>
-        <label>Rename Title: <input type="text" id="adminTitleInput" placeholder="GAWYNT" value="GAWYNT" oninput="pushGlobalSettings()"></label>
-        <label>
-            Effect Type:
-            <select id="adminEffectSelect" onchange="pushGlobalSettings()">
-                <option value="snow">Snow</option>
-                <option value="leaves">Leaves</option>
-                <option value="rain">Rain</option>
-                <option value="stars">Stars</option>
-                <option value="confetti">Confetti</option>
-                <option value="matrix">Matrix Code</option>
-                <option value="disco">Party Disco</option> 
-            </select>
-        </label>
-        <label>Effect Size: <input type="range" id="adminSizeSlider" min="0.5" max="5" step="0.5" value="1" oninput="pushGlobalSettings()"></label>
-        <label>Effect Speed: <input type="range" id="adminSpeedSlider" min="0" max="5" step="0.1" value="1" oninput="pushGlobalSettings()"></label>
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-title-header" style="color:#FF2D55; font-weight:800; text-align:center; margin-bottom:10px; font-size: 15px;">⚡ COMMAND CENTER</div>
+        
+        <div class="admin-section">
+            <div class="admin-section-title">Visual Branding</div>
+            <label>Title Text <input type="text" id="admTitle" oninput="pushGlobalSettings()"></label>
+            <label>Logo Icon <input type="text" id="admLogo" oninput="pushGlobalSettings()"></label>
+            <label>Version Tag <input type="text" id="admVersion" oninput="pushGlobalSettings()"></label>
+            <label>Accent Color <input type="color" id="admAccent" value="#007aff" oninput="pushGlobalSettings()"></label>
+            <label>Background <input type="color" id="admBg" value="#050505" oninput="pushGlobalSettings()"></label>
+        </div>
+
+        <div class="admin-section">
+            <div class="admin-section-title">Glass Physics</div>
+            <label>Glass Blur <input type="range" id="admBlur" min="0" max="50" value="25" oninput="pushGlobalSettings()"></label>
+            <label>Glass Opacity <input type="range" id="admOpacity" min="0" max="100" value="60" oninput="pushGlobalSettings()"></label>
+            <label>Card Radius <input type="range" id="admRadius" min="0" max="100" value="48" oninput="pushGlobalSettings()"></label>
+        </div>
+
+        <div class="admin-section">
+            <div class="admin-section-title">Atmosphere</div>
+            <label>Effect Type
+                <select id="admEffect" onchange="pushGlobalSettings()">
+                    <option value="snow">Snow</option>
+                    <option value="leaves">Leaves</option>
+                    <option value="rain">Rain</option>
+                    <option value="stars">Stars</option>
+                    <option value="confetti">Confetti</option>
+                    <option value="matrix">Matrix Code</option>
+                    <option value="disco">Party Disco</option> 
+                </select>
+            </label>
+            <label>Particle Count <input type="range" id="admCount" min="20" max="300" value="100" oninput="pushGlobalSettings()"></label>
+            <label>Effect Speed <input type="range" id="admSpeed" min="0" max="5" step="0.1" value="1" oninput="pushGlobalSettings()"></label>
+            <label>Effect Size <input type="range" id="admSize" min="0.5" max="5" step="0.5" value="1" oninput="pushGlobalSettings()"></label>
+        </div>
+
+        <div class="admin-section" style="border:none;">
+            <div class="admin-section-title">System Status</div>
+            <label>Status Text <input type="text" id="admStatus" oninput="pushGlobalSettings()"></label>
+            <label>Location Text <input type="text" id="admLocation" oninput="pushGlobalSettings()"></label>
+            <label>Status Color <input type="color" id="admStatusCol" value="#34c759" oninput="pushGlobalSettings()"></label>
+        </div>
     </div>
     
     <button class="theme-switch" onclick="toggleTheme()">
@@ -242,8 +244,9 @@
     </button>
 
     <div class="glass-card" id="mainCard">
-        <div class="logo-mark"></div> <h1 id="mainTitle">GAWYNT</h1>
-        <span class="version-badge">Quantum Hub v2.6.4</span>
+        <div class="logo-mark" id="dispLogo"></div> 
+        <h1 id="dispTitle">GAWYNT</h1>
+        <span class="version-badge" id="dispVersion">Quantum Hub v2.6.4</span>
 
         <div class="btn-stack">
             <a href="https://Gawyntgg.github.io/Hongthai/" class="btn btn-hongthai" onclick="createBurst(event)">
@@ -297,14 +300,16 @@
         </div>
 
         <div class="system-info">
-            <span style="display:flex; align-items:center; gap:6px;"><div class="status-dot"></div> Hub Online</span>
+            <span style="display:flex; align-items:center; gap:6px;">
+                <div class="status-dot" id="dispDot"></div> 
+                <span id="dispStatus">Hub Online</span>
+            </span>
             <span>•</span>
-            <span>Calgary Tech</span>
+            <span id="dispLocation">Calgary Tech</span>
         </div>
     </div>
 
     <script>
-        // Restored Firebase Config & Logic
         const firebaseConfig = {
             apiKey: "AIzaSyBuWWnqDX5mUra5pF3uuBxEVSKjcESifTk",
             authDomain: "gawynt-hub.firebaseapp.com",
@@ -320,28 +325,75 @@
 
         function pushGlobalSettings() {
             const settings = {
-                bgColor: document.getElementById('adminColorPicker').value,
-                title: document.getElementById('adminTitleInput').value,
-                effect: document.getElementById('adminEffectSelect').value,
-                size: document.getElementById('adminSizeSlider').value,
-                speed: document.getElementById('adminSpeedSlider').value
+                title: document.getElementById('admTitle').value || 'GAWYNT',
+                logo: document.getElementById('admLogo').value || '',
+                version: document.getElementById('admVersion').value || 'Quantum Hub v2.6.4',
+                accent: document.getElementById('admAccent').value,
+                bg: document.getElementById('admBg').value,
+                blur: document.getElementById('admBlur').value,
+                opacity: document.getElementById('admOpacity').value,
+                radius: document.getElementById('admRadius').value,
+                effect: document.getElementById('admEffect').value,
+                count: document.getElementById('admCount').value,
+                speed: document.getElementById('admSpeed').value,
+                size: document.getElementById('admSize').value,
+                status: document.getElementById('admStatus').value || 'Hub Online',
+                location: document.getElementById('admLocation').value || 'Calgary Tech',
+                statusCol: document.getElementById('admStatusCol').value
             };
             database.ref('siteSettings').set(settings);
         }
 
         database.ref('siteSettings').on('value', (snapshot) => {
             const data = snapshot.val();
-            if (data) {
-                document.documentElement.style.setProperty('--bg-color', data.bgColor);
-                document.getElementById('adminColorPicker').value = data.bgColor;
-                document.getElementById('mainTitle').innerText = data.title;
-                document.getElementById('adminTitleInput').value = data.title;
-                adminEffectType = data.effect;
-                document.getElementById('adminEffectSelect').value = data.effect;
-                adminEffectSize = parseFloat(data.size);
-                document.getElementById('adminSizeSlider').value = data.size;
-                adminSnowSpeed = parseFloat(data.speed);
-                document.getElementById('adminSpeedSlider').value = data.speed;
+            if (!data) return;
+
+            // Apply Texts
+            document.getElementById('dispTitle').innerText = data.title;
+            document.getElementById('dispLogo').innerText = data.logo;
+            document.getElementById('dispVersion').innerText = data.version;
+            document.getElementById('dispStatus').innerText = data.status;
+            document.getElementById('dispLocation').innerText = data.location;
+
+            // Apply Styles via CSS Variables
+            const root = document.documentElement;
+            root.style.setProperty('--accent', data.accent);
+            root.style.setProperty('--bg-color', data.bg);
+            root.style.setProperty('--glass-blur', `blur(${data.blur}px) saturate(200%)`);
+            root.style.setProperty('--card-bg', `rgba(28, 28, 30, ${data.opacity / 100})`);
+            root.style.setProperty('--card-radius', `${data.radius}px`);
+            
+            document.getElementById('dispDot').style.background = data.statusCol;
+            document.getElementById('dispDot').style.boxShadow = `0 0 15px ${data.statusCol}`;
+
+            // Sync Particle Engine Settings
+            adminEffectType = data.effect;
+            adminSnowSpeed = parseFloat(data.speed);
+            adminEffectSize = parseFloat(data.size);
+            
+            // Re-initialize particles if count changes drastically
+            if(Math.abs(particles.length - parseInt(data.count)) > 5) {
+                targetParticleCount = parseInt(data.count);
+                initSnow();
+            }
+
+            // Sync Inputs (only if not currently typing to prevent cursor jump)
+            if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'SELECT') {
+                document.getElementById('admTitle').value = data.title;
+                document.getElementById('admLogo').value = data.logo;
+                document.getElementById('admVersion').value = data.version;
+                document.getElementById('admAccent').value = data.accent;
+                document.getElementById('admBg').value = data.bg;
+                document.getElementById('admBlur').value = data.blur;
+                document.getElementById('admOpacity').value = data.opacity;
+                document.getElementById('admRadius').value = data.radius;
+                document.getElementById('admEffect').value = data.effect;
+                document.getElementById('admCount').value = data.count;
+                document.getElementById('admSpeed').value = data.speed;
+                document.getElementById('admSize').value = data.size;
+                document.getElementById('admStatus').value = data.status;
+                document.getElementById('admLocation').value = data.location;
+                document.getElementById('admStatusCol').value = data.statusCol;
             }
         });
 
@@ -351,23 +403,23 @@
             body.setAttribute('data-theme', isDark ? 'light' : 'dark');
             document.getElementById('mode-text').innerText = isDark ? "Dark Mode" : "Light Mode";
             document.getElementById('mode-icon').innerText = isDark ? "🌙" : "☀️";
-            document.documentElement.style.removeProperty('--bg-color');
         }
 
         const canvas = document.getElementById('snow-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
         let bursts = [];
+        let targetParticleCount = 100;
         let adminSnowSpeed = 1; 
         let adminEffectType = 'snow'; 
-        let adminEffectSize = 1;      
+        let adminEffectSize = 1;       
         const confettiColors = ['#FF2D55', '#5856D6', '#34C759', '#FF9F0A', '#32ADE6', '#00C7BE'];
 
         function initSnow() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             particles = [];
-            for (let i = 0; i < 100; i++) {
+            for (let i = 0; i < targetParticleCount; i++) {
                 particles.push({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
@@ -398,9 +450,11 @@
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             const theme = document.body.getAttribute('data-theme');
+            
             for (let p of particles) {
                 let baseRadius = p.radius * adminEffectSize;
                 ctx.beginPath();
+                
                 if (adminEffectType === 'snow') {
                     ctx.fillStyle = theme === 'dark' ? "rgba(255, 255, 255, 0.4)" : "rgba(0, 0, 0, 0.2)";
                     ctx.arc(p.x, p.y, baseRadius, 0, Math.PI * 2);
@@ -457,10 +511,12 @@
                     p.x += (Math.random() - 0.5) * 8 * adminSnowSpeed;
                     p.y += (Math.random() - 0.5) * 8 * adminSnowSpeed;
                 }
+                
                 let currentVy = p.vy * adminSnowSpeed;
                 if (adminEffectType === 'rain') currentVy *= 3;
                 p.y += currentVy; 
                 p.x += (p.vx * adminSnowSpeed);
+                
                 if (p.y > canvas.height + 20) {
                     p.y = -20;
                     p.x = Math.random() * canvas.width;
@@ -468,6 +524,7 @@
                 if (p.x < -20) p.x = canvas.width + 20;
                 if (p.x > canvas.width + 20) p.x = -20;
             }
+            
             for (let i = bursts.length - 1; i >= 0; i--) {
                 let b = bursts[i];
                 ctx.fillStyle = `rgba(255, 214, 10, ${b.life})`;
@@ -489,8 +546,8 @@
         });
 
         card.addEventListener('dblclick', () => {
-            const panel = document.querySelector('.admin-panel');
-            if (panel.style.display === 'none') {
+            const panel = document.getElementById('adminPanel');
+            if (panel.style.display === 'none' || panel.style.display === '') {
                 const pass = prompt('Enter Admin Passcode:');
                 if (pass === 'Kikeew24') {
                     panel.style.display = 'flex';
